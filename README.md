@@ -9,8 +9,8 @@ O TODO-AngularJS é uma aplicação simples e intuitiva para ajudar você a orga
 ## 🚀 Funcionalidades
 
 - Adicionar, editar e remover tarefas com facilidade ✏️
-- Marcar tarefas como concluídas ✅
-- Filtrar tarefas por status (todas, pendentes, concluídas) 🔍
+- Marcar tarefas como concluídas ✅(em desenvolvimento)
+- Filtrar tarefas por status (todas, pendentes, concluídas) .. em desenvolvimento 🔍
 - Interface responsiva e moderna 📱
 
 ## 🛠️ Tecnologias Utilizadas
@@ -42,7 +42,7 @@ Este projeto está licenciado sob a [MIT License](LICENSE).
 
 ---
 
-Feito com ❤️ por [Seu Nome]
+Feito com ❤️ por Andre Celis
 
 ## 🏃‍♂️ Executando o Projeto Localmente
 
