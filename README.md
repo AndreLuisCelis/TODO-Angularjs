@@ -1,6 +1,6 @@
 # 🎉 Bem-vindo ao Projeto TODO-AngularJS! 🎉
 
-Este é o seu novo projeto favorito para gerenciar tarefas com estilo e eficiência usando AngularJS! 🚀
+Este é o seu novo projeto favorito para gerenciar tarefas com estilo e eficiência usando AngularJS e Bootstrap! 🚀
 
 ## 📋 Sobre o Projeto
 
@@ -16,6 +16,7 @@ O TODO-AngularJS é uma aplicação simples e intuitiva para ajudar você a orga
 ## 🛠️ Tecnologias Utilizadas
 
 - **AngularJS** - O framework JavaScript que torna tudo possível!
+- **Bootstrap** - Para uma interface moderna e responsiva
 - **HTML5** - Para a estrutura da aplicação
 - **CSS3** - Para deixar tudo bonito e estiloso
 - **JavaScript** - Para a lógica e interatividade
