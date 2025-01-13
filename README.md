@@ -43,3 +43,24 @@ Este projeto está licenciado sob a [MIT License](LICENSE).
 ---
 
 Feito com ❤️ por [Seu Nome]
+
+## 🏃‍♂️ Executando o Projeto Localmente
+
+Para rodar o projeto localmente e começar a gerenciar suas tarefas, siga os passos abaixo:
+
+1. Certifique-se de ter o [Node.js](https://nodejs.org/) instalado em sua máquina.
+2. Instale o [http-server](https://www.npmjs.com/package/http-server) globalmente usando npm:
+    ```bash
+    npm install -g http-server
+    ```
+3. Navegue até o diretório do projeto:
+    ```bash
+    cd todo-angularjs
+    ```
+4. Inicie o servidor HTTP:
+    ```bash
+    http-server
+    ```
+5. Abra o navegador e acesse `http://localhost:8080` para ver a aplicação em execução.
+
+Divirta-se gerenciando suas tarefas com o TODO-AngularJS! 🎉
