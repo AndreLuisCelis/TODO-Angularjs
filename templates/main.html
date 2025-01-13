@@ -1,0 +1,20 @@
+<h1 class="d-flex justify-content-center p-4">{{ message }}</h1>
+
+
+<div class="card ms-auto me-auto w-75">
+  <div class="card-header">
+    <h2 class="d-flex justify-content-center text-secondary">TO-DO</h2>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item d-flex text-success" style="gap: 10px;" ng-repeat="item in items">{{ item }}
+      <button class="btn btn-danger ms-auto" ng-click="removeItem(item)">Remover</button>
+      <button class="btn btn-warning" ng-click="editItem(item)">Editar</button>
+    </li>
+  </ul>
+
+  <div class="card-footer d-flex p-4 ps-1 align-items-end" style="gap: 10px;">
+    <textarea class="form-control" id='new' type="text"  value="{{newItem}}" placeholder="Novo item" rows="2"></textarea>
+    <button class="btn btn-primary" ng-click="addItem($event.value)">{{indexEditItem || indexEditItem == 0 ?'Editar':'Adicionar'}}</button>
+  </div>
+</div>
+

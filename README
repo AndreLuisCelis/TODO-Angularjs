@@ -1,0 +1,47 @@
+# TODO-Angularjs
+
+Este é um projeto de exemplo utilizando AngularJS para gerenciar uma lista de tarefas (TODO).
+
+## Funcionalidades
+
+- Adicionar novas tarefas
+- Marcar tarefas como concluídas
+- Remover tarefas concluídas
+- Filtrar tarefas por status (todas, ativas, concluídas)
+
+## Requisitos
+
+- Node.js
+- npm (Node Package Manager)
+- AngularJS
+
+## Instalação
+
+1. Clone o repositório:
+    ```bash
+    git clone https://github.com/seu-usuario/TODO-Angularjs.git
+    ```
+2. Navegue até o diretório do projeto:
+    ```bash
+    cd TODO-Angularjs
+    ```
+3. Instale as dependências:
+    ```bash
+    npm install
+    ```
+
+## Uso
+
+1. Inicie o servidor de desenvolvimento:
+    ```bash
+    npm start
+    ```
+2. Abra o navegador e acesse `http://localhost:8000` para ver a aplicação em execução.
+
+## Estrutura do Projeto
+
+- `app/` - Contém os arquivos principais da aplicação AngularJS
+- `css/` - Contém os arquivos de estilo
+- `index.html` - Página principal da aplicação
+
+
