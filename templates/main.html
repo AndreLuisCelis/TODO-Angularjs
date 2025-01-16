@@ -5,10 +5,12 @@
   <div class="card-header">
     <h2 class="d-flex justify-content-center text-secondary">TO-DO</h2>
   </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item d-flex text-success" style="gap: 10px;" ng-repeat="item in items">{{ item }}
-      <button class="btn btn-danger ms-auto" ng-click="removeItem(item)">Remover</button>
-      <button class="btn btn-warning" ng-click="editItem(item)">Editar</button>
+  <ul id="sortable-list" class="list-group list-group-flush">
+    <li class="list-group-item d-flex  align-items-center" style="gap: 10px;" ng-repeat="item in items" draggable="true">
+      <div id="{{item}}" class="text-success" >{{ item }}</div>
+      <button id="{{'btn-'+item}}" class="btn btn-success ms-auto" ng-click="checkItem(item,$event.target)">Feito</button>
+      <button class="btn btn-warning " ng-click="editItem(item)">Editar</button>
+      <button class="btn btn-danger " ng-click="removeItem(item)">Remover</button>
     </li>
   </ul>
 
