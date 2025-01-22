@@ -1,0 +1,10 @@
+
+  li {
+    cursor:grab;
+  }
+  
+  li.dragging {
+    opacity: 0.5;
+    border: 5px solid #3f3 !important;
+    background-color: #cfc;
+  }
