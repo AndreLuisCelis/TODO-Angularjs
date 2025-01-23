@@ -46,8 +46,25 @@ Este projeto está licenciado sob a [MIT License](LICENSE).
 Feito com ❤️ por Andre Celis
 
 ## 🏃‍♂️ Executando o Projeto Localmente
+### Opção Alternativa: Abrir Diretamente no Navegador
 
-Para rodar o projeto localmente e começar a gerenciar suas tarefas, siga os passos abaixo:
+Se preferir, você pode abrir o arquivo `app.html` diretamente no seu navegador sem a necessidade de um servidor HTTP. Para isso, siga os passos abaixo:
+
+1. Navegue até o diretório do projeto:
+    ```bash
+    cd todo-angularjs
+    ```
+2. Abra o arquivo `app.html` no seu navegador favorito:
+    - No Windows: Dê um duplo clique no arquivo `app.html`.
+    - No macOS: Dê um duplo clique no arquivo `app.html`.
+    - No Linux: Dê um duplo clique no arquivo `app.html` ou use o comando:
+        ```bash
+        xdg-open app.html
+        ```
+
+Pronto! Agora você pode gerenciar suas tarefas diretamente no navegador sem precisar de um servidor. 🎉
+
+Ou então, para rodar o projeto localmente e começar a gerenciar suas tarefas, siga os passos abaixo:
 
 1. Certifique-se de ter o [Node.js](https://nodejs.org/) instalado em sua máquina.
 2. Instale o [http-server](https://www.npmjs.com/package/http-server) globalmente usando npm:
@@ -65,3 +82,4 @@ Para rodar o projeto localmente e começar a gerenciar suas tarefas, siga os pas
 5. Abra o navegador e acesse `http://localhost:8080` para ver a aplicação em execução.
 
 Divirta-se gerenciando suas tarefas com o TODO-AngularJS! 🎉
+
