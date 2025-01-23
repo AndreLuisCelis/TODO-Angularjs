@@ -2,7 +2,25 @@
 app.controller('MainController', function ($scope) {
   $scope.message = "AngularJS";
 
+  // Função para obter a data atual
+  $scope.getCurrentDate = function () {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+    const year = today.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
   $scope.items = JSON.parse(localStorage.getItem("todos")) || [];
+  
+  $scope.checkedTodos = JSON.parse(localStorage.getItem("feito")) || [];
+
+  $scope.indexEditItem = null;
+
+  $scope.newItem = null;
+
+  // Adiciona a data atual ao escopo
+  $scope.currentDate = $scope.getCurrentDate();
 
   $scope.checkedTodos = JSON.parse(localStorage.getItem("feito")) || [];
 
@@ -21,7 +39,7 @@ app.controller('MainController', function ($scope) {
   const getCheckedTodos = () => {
     $scope.checkedTodos.map(todo => {
       let todoChecked = document.getElementById(todo);
-      let btnTodoChecked = document.getElementById('btn-'+todo);
+      let btnTodoChecked = document.getElementById('btn-' + todo);
       if (todoChecked) { // Verifica se o elemento existe
         todoChecked.style.textDecoration = "line-through";
         btnTodoChecked.innerText = "Refazer";
@@ -82,10 +100,10 @@ app.controller('MainController', function ($scope) {
 
     const saveOrder = () => {
       const items = document.querySelectorAll("#sortable-list li");
-      const newOrderItems = Array.from(items).map((item) => 
-         item.children.item(0).innerText  
+      const newOrderItems = Array.from(items).map((item) =>
+        item.children.item(0).innerText
       );
-     $scope.items = newOrderItems;  
+      $scope.items = newOrderItems;
     };
   }
 
