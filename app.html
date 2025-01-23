@@ -10,6 +10,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
   <script src="js/app.js"></script>
   <script src="js/controllers/mainController.js"></script>
+ 
 </head>
 
 <body class="text-primary-emphasis">
@@ -20,7 +21,9 @@
 
 <div class="card ms-auto me-auto w-75">
   <div class="card-header">
-    <h2 class="d-flex justify-content-center text-secondary">Lista de Tarefas</h2>
+    <h2 class="d-flex justify-content-center text-secondary">Lista de Tarefas
+      <span id="data">{{ currentDate }} </span>
+    </h2>
   </div>
   <ul id="sortable-list" class="list-group list-group-flush">
     <li class="list-group-item d-flex  align-items-center" style="gap: 10px;" ng-repeat="item in items" draggable="true">
@@ -47,6 +50,18 @@
 
 app.controller('MainController', function ($scope) {
   $scope.message = "AngularJS";
+
+   // Função para obter a data atual
+   $scope.getCurrentDate = function () {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+    const year = today.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
+  // Adiciona a data atual ao escopo
+  $scope.currentDate = $scope.getCurrentDate();
 
   $scope.items = JSON.parse(localStorage.getItem("todos")) || [];
 
