@@ -8,3 +8,14 @@
     border: 5px solid #3f3 !important;
     background-color: #cfc;
   }
+  #data {
+    display: flex;
+    background-color: white;
+    font-size: small;
+    border: 0px solid #ccc;
+    border-radius: 10px;
+    padding: 5px;
+    margin-left: auto;
+    margin-right: 10px;
+    align-items: center;
+  }
