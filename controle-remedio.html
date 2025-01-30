@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Controle de Remedios</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/controllers/mainController.js"></script>
+ 
+</head>
+
+<body class="text-primary-emphasis">
+  <!-- O aplicativo AngularJS começa aqui -->
+  <div ng-app="myApp" ng-controller="MainController">
+<div class="card ms-auto me-auto w-100">
+  <div class="card-header">
+    <h2 class="d-flex justify-content-center text-secondary">Controle de Medicamentos
+      <span id="data">{{ currentDate }} </span>
+    </h2>
+  </div>
+  <ul id="sortable-list" class="list-group list-group-flush">
+    <li class="list-group-item d-flex  align-items-center" style="gap: 10px;" ng-repeat="item in items" draggable="true">
+      <div id="{{item}}" class="text-success" >{{ item }}</div>
+      <button id="{{'btn-'+item}}" class="btn  btn-outline-primary ms-auto btn-sm" ng-click="checkItem(item,$event.target)">Feito</button>
+      <div class="dropdown">
+        <button class="btn dropdown-toggle btn-outline btn-small" 
+        type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          ...
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" ng-click = "editItem(item)" >Editar</a></li>
+          <li><a class="dropdown-item" ng-click="removeItem(item)"> Remover</a></li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+
+  <div class="card-footer d-flex p-4 ps-1 align-items-end" style="gap: 10px;">
+    <textarea class="form-control" id='new' type="text"  value="{{newItem}}" placeholder="Novo item" rows="2"></textarea>
+    <button class="btn btn-primary" ng-click="addItem($event.value)">{{indexEditItem || indexEditItem == 0 ?'Editar':'Adicionar'}}</button>
+  </div>
+</div>
+
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+<script>
+  var app = angular.module('myApp', []);
+
+app.controller('MainController', function ($scope) {
+  $scope.message = "AngularJS";
+
+   // Função para obter a data atual
+   $scope.getCurrentDate = function () {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+    const year = today.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
+  // Adiciona a data atual ao escopo
+  $scope.currentDate = $scope.getCurrentDate();
+
+  $scope.items = JSON.parse(localStorage.getItem("todos")) || [];
+
+  $scope.checkedTodos = JSON.parse(localStorage.getItem("feito")) || [];
+
+  $scope.indexEditItem = null;
+
+  $scope.newItem = null;
+
+  const updateTodos = () => {
+    localStorage.setItem("todos", JSON.stringify($scope.items));
+  };
+
+  const saveCheckedTodos = () => {
+    localStorage.setItem("feito", JSON.stringify($scope.checkedTodos));
+  }
+
+  const getCheckedTodos = () => {
+    $scope.checkedTodos.map(todo => {
+      let todoChecked = document.getElementById(todo);
+      let btnTodoChecked = document.getElementById('btn-'+todo);
+      if (todoChecked) { // Verifica se o elemento existe
+        todoChecked.style.textDecoration = "line-through";
+        btnTodoChecked.innerText = "Refazer";
+      }
+    });
+  };
+
+  setTimeout(() => {
+    getCheckedTodos();
+    startSortable();
+  }, 200);
+
+  const startSortable = () => {
+    const list = document.getElementById("sortable-list");
+
+    let draggingElement = null;
+
+    list?.addEventListener("dragstart", (event) => {
+      draggingElement = event.target;
+      event.target.classList.add("dragging");
+    });
+
+    list?.addEventListener("dragend", (event) => {
+      event.target.classList.remove("dragging");
+      draggingElement = null;
+      saveOrder();
+      updateTodos();
+    });
+
+    list?.addEventListener("dragover", (event) => {
+      event.preventDefault(); // Necessário para permitir o drop
+      const afterElement = getDragAfterElement(list, event.clientY);
+      if (afterElement == null) {
+        list.appendChild(draggingElement);
+      } else {
+        list.insertBefore(draggingElement, afterElement);
+      }
+    });
+
+    function getDragAfterElement(container, y) {
+      const draggableElements = [
+        ...container.querySelectorAll("li:not(.dragging)"),
+      ];
+
+      return draggableElements.reduce(
+        (closest, child) => {
+          const box = child.getBoundingClientRect();
+          const offset = y - box.top - box.height / 2;
+          if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child };
+          } else {
+            return closest;
+          }
+        },
+        { offset: Number.NEGATIVE_INFINITY }
+      ).element;
+    }
+
+    const saveOrder = () => {
+      const items = document.querySelectorAll("#sortable-list li");
+      const newOrderItems = Array.from(items).map((item) => 
+         item.children.item(0).innerText  
+      );
+     $scope.items = newOrderItems;  
+    };
+  }
+
+  $scope.addItem = function () {
+    let input = document.getElementById('new');
+    let inputValue = input.value;
+    $scope.newItem = inputValue;
+    if ($scope.newItem) {
+      if ($scope.indexEditItem || $scope.indexEditItem == 0) {
+        $scope.items[$scope.indexEditItem] = $scope.newItem;
+        $scope.indexEditItem = null;
+      } else {
+        $scope.items.push($scope.newItem);
+      }
+      $scope.items = [...new Set($scope.items)];
+      $scope.newItem = ''; // Limpa o campo de entrada
+      input.value = $scope.newItem;
+      updateTodos();
+    }
+  };
+
+  $scope.removeItem = function (item) {
+    if (item) {
+      let index = $scope.items.indexOf(item);
+      $scope.items.splice(index, 1);
+      updateTodos();
+    }
+  };
+
+  $scope.editItem = function (item) {
+    let input = document.getElementById('new');
+    input.value = item;
+    console.log(item);
+    if (item) {
+      let index = $scope.items.indexOf(item);
+      $scope.indexEditItem = index;
+      $scope.newItem = item;
+    }
+  };
+
+  $scope.checkItem = function (item, btn) {
+    let todo = document.getElementById(item);
+    if (todo.style.textDecoration === "line-through") {
+      todo.style.textDecoration = "none";
+      btn.innerText = "Feito";
+      let index = $scope.checkedTodos?.indexOf(item);
+      $scope.checkedTodos?.splice(index, 1);
+      saveCheckedTodos();
+    } else {
+      todo.style.textDecoration = "line-through";
+      btn.innerText = "Refazer";
+      $scope.checkedTodos.push(item);
+      $scope.checkedTodos = [...new Set($scope.checkedTodos)];
+      saveCheckedTodos();
+    }
+  };
+});
+
+</script>
+
+</html>
