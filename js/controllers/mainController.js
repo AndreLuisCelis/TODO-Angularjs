@@ -21,7 +21,7 @@ app.controller('MainController', function ($scope) {
   const getCheckedTodos = () => {
     $scope.checkedTodos.map(todo => {
       let todoChecked = document.getElementById(todo);
-      let btnTodoChecked = document.getElementById('btn-'+todo);
+      let btnTodoChecked = document.getElementById('btn-' + todo);
       if (todoChecked) { // Verifica se o elemento existe
         todoChecked.style.textDecoration = "line-through";
         btnTodoChecked.innerText = "Refazer";
@@ -82,10 +82,10 @@ app.controller('MainController', function ($scope) {
 
     const saveOrder = () => {
       const items = document.querySelectorAll("#sortable-list li");
-      const newOrderItems = Array.from(items).map((item) => 
-         item.children.item(0).innerText  
+      const newOrderItems = Array.from(items).map((item) =>
+        item.children.item(0).innerText
       );
-     $scope.items = newOrderItems;  
+      $scope.items = newOrderItems;
     };
   }
 
@@ -118,7 +118,6 @@ app.controller('MainController', function ($scope) {
   $scope.editItem = function (item) {
     let input = document.getElementById('new');
     input.value = item;
-    console.log(item);
     if (item) {
       let index = $scope.items.indexOf(item);
       $scope.indexEditItem = index;
