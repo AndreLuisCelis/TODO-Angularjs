@@ -2,161 +2,172 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Controle de Remedios</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/style.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
-  <script src="js/app.js"></script>
-  <script src="js/controllers/mainController.js"></script>
- 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Remedios</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers/mainController.js"></script>
 </head>
 
-<body class="text-primary-emphasis">
-  <!-- O aplicativo AngularJS começa aqui -->
-  <div ng-app="myApp" ng-controller="MainController">
-<div class="card ms-auto me-auto w-100">
-  <div class="card-header">
-    <h2 class="d-flex justify-content-center text-secondary">Controle de Medicamentos
-      <span id="data">{{ currentDate }} </span>
-    </h2>
-  </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item d-flex  align-items-center" style="gap: 10px;" ng-repeat="item in items track by $index" >
-      <div style="{{item.tomou >= item.quantasVezes ? 'text-decoration: line-through' : ''}}"
-      id="{{item.descricao}}" 
-      class="text-success" ><span>{{ item.descricao }}</span>
-        <span class="badge bg-primary rounded-pill me-1 ms-auto">{{item.tomou}}/{{item.quantasVezes}}</span>
-      </div>
-      <button 
-        id="{{'btn-'+item.descricao}}" style="min-width: 70px !important;"
-        class="btn btn-outline-primary ms-auto btn-sm" 
-        ng-click="checkItem(item,$event.target)">{{item.quantasVezes> item.tomou ? 'Tomar':'OK'}}
-    </button>
-      <div class="dropdown">
-        <button class="btn dropdown-toggle btn-outline btn-small" 
-        type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          ...
-        </button>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" ng-click = "editItem(item)" >Editar</a></li>
-          <li><a class="dropdown-item" ng-click="removeItem(item)"> Remover</a></li>
-        </ul>
-      </div>
-    </li>
-  </ul>
+<body class="text-primary-emphasis p-2">
+    <!-- O aplicativo AngularJS começa aqui -->
+    <div ng-app="myApp" ng-controller="MainController">
+        <h1 class="text-success text-center">{{title}}</h1>
+        <div class="card ms-auto me-auto w-100">
+            <div class="card-header">
+                <h2 class="d-flex justify-content-center text-secondary">
+                    <span id="data">{{ currentDate }} </span>
+                </h2>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex  align-items-center" style="gap: 10px;"
+                    ng-repeat="item in items track by $index">
+                    <div ng-style="{'text-decoration': item.tomou >= item.quantasVezes ? 'line-through' : ''}"
+                        id="{{item.descricao}}" class="text-success"><span>{{ item.descricao }}</span>
+                        <span
+                            class="badge btn rounded-pill ms-1 {{item.tomou >= item.quantasVezes ? 'btn-success':'btn-danger'}}">
+                            {{item.tomou}}/{{item.quantasVezes}}</span>
+                    </div>
+                    <button id="{{'btn-'+item.descricao}}" style="min-width: 70px !important;"
+                        class="btn ms-auto btn-sm {{item.tomou >= item.quantasVezes ? 'btn-success':'btn-primary'}}"
+                        ng-click="checkItem(item,$event.target)">
+                        {{getButtonText(item)}}
+                    </button>
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle btn-light btn-sm" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" ng-click="editItem(item)">Editar</a></li>
+                            <li><a class="dropdown-item" ng-click="removeItem(item)"> Remover</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+            <div class="card-footer d-flex p-1 align-items-start pt-2 mt-1">
+                <textarea class="form-control rounded-top-0 " id='new' type="text" value="{{newItem}}"
+                    placeholder="Novo item" rows="2"></textarea>
+                <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="2" id="vezes"
+                    class="form-control px-1 rounded-top-0" placeholder='Vz' value="" style="max-width: 30px;">
+                <button class="btn btn-primary  ms-1" ng-click="addItem($event.value)">{{indexEditItem || indexEditItem
+                    == 0 ?'Editar':'Adicionar'}}</button>
+            </div>
+        </div>
+    </div>
 
-  <div class="card-footer d-flex p-1 align-items-start pt-2 mt-1">
-    <textarea class="form-control rounded-top-0 " id='new' type="text"  value="{{newItem}}" placeholder="Novo item" rows="2"></textarea>
-    <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="2" 
-    id="vezes" class="form-control px-1 rounded-top-0"  
-    placeholder='Vz'
-    value=""
-    style="max-width: 30px;">
-    <button class="btn btn-primary  ms-1" ng-click="addItem($event.value)">{{indexEditItem || indexEditItem == 0 ?'Editar':'Adicionar'}}</button>
-  </div>
-</div>
-
-
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
 <script>
-  var app = angular.module('myApp', []);
+    var app = angular.module('myApp', []);
 
-app.controller('MainController', function ($scope) {
-  $scope.message = "AngularJS";
+    app.controller('MainController', function ($scope) {
 
-   // Função para obter a data atual
-   $scope.getCurrentDate = function () {
-    const today = new Date();
-    const day = String(today.getDate()).padStart(2, '0');
-    const month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-    const year = today.getFullYear();
-    return `${day}/${month}/${year}`;
-  };
+        $scope.title = "Controle de Medicamentos";
 
-  // Adiciona a data atual ao escopo
-  $scope.currentDate = $scope.getCurrentDate();
+        // Função para obter a data atual
+        $scope.getCurrentDate = function () {
+            const today = new Date();
+            const day = String(today.getDate()).padStart(2, '0');
+            const month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+            const year = today.getFullYear();
+            return `${day}/${month}/${year}`;
+        };
 
-  $scope.items = JSON.parse(localStorage.getItem("todos")) || [];
+        const updateTodos = () => {
+            localStorage.setItem("controles", JSON.stringify($scope.items));
+        };
 
-  $scope.checkedTodos = JSON.parse(localStorage.getItem("feito")) || [];
-
-  $scope.indexEditItem = null;
-
-  $scope.newItem = null;
-
-  const updateTodos = () => {
-    localStorage.setItem("todos", JSON.stringify($scope.items));
-  };
-
-  const saveCheckedTodos = () => {
-    localStorage.setItem("feito", JSON.stringify($scope.checkedTodos));
-  }
-
-  $scope.addItem = function () {
-    let input = document.getElementById('new');
-    let inputEstaVazio = !input.value;
-    if(inputEstaVazio) {return}
-    let inputVezes = document.getElementById('vezes');
-
-    $scope.newItem.descricao = input.value;
-    $scope.newItem.quantasVezes = inputVezes?.value>0? inputVezes.value: 1;
-    $scope.newItem.tomou = $scope.newItem.tomou || 0;
-
-    let isEdting = $scope.indexEditItem || $scope.indexEditItem == 0;
-    if ($scope.newItem) {
-      if (isEdting) {
-        $scope.items[$scope.indexEditItem] = $scope.newItem;
+        const checkData = (item) => {
+            return new Date(item.createdAt.split('/').reverse().join('-')) <
+                new Date($scope.currentDate.split('/').reverse().join('-'))
+        };
+        const getControles = () => {
+            let controles = JSON.parse(localStorage.getItem("controles")) || [];
+            controles = controles.map((item) => {
+                if (checkData(item)) {
+                    item.tomou = 0;
+                    item.createdAt = $scope.currentDate;
+                }
+                return item;
+            });
+            localStorage.setItem("controles", JSON.stringify(controles));
+            setTimeout(() => {
+                console.log('controles', controles);
+            }, 500);
+            return controles;
+        };
+        // Adiciona a data atual ao escopo
+        $scope.currentDate = $scope.getCurrentDate();
+        $scope.items = getControles();
+        $scope.getButtonText = function (item) {
+            return item?.tomou >= item?.quantasVezes ? 'Ok' : 'Tomar';
+        };
         $scope.indexEditItem = null;
-      } else {
-        $scope.items.push($scope.newItem);
-      }
-      $scope.items = $scope.items.filter((item, index, self) => 
-        index === self.findIndex((t) => t.descricao === item.descricao)
-      );
-      $scope.newItem = ''; // Limpa o campo de entrada
-      input.value = $scope.newItem;
-      updateTodos();
-    }
-  };
-
-  $scope.removeItem = function (item) {
-    if (item) {
-      let index = $scope.items.indexOf(item);
-      $scope.items.splice(index, 1);
-      updateTodos();
-    }
-  };
-
-  $scope.editItem = function (item) {
-    let input = document.getElementById('new');
-    let inputVezes = document.getElementById('vezes');
-    input.value = item.descricao;
-    inputVezes.value = item.quantasVezes;
-    console.log(item);
-    if (item) {
-      let index = $scope.items.indexOf(item);
-      $scope.indexEditItem = index;
-      $scope.newItem = item;
-    }
-  };
-
-  $scope.checkItem = function (item, btn) {
-    let controle = document.getElementById(item.descricao);
-    if (item.quantasVezes> item.tomou) {
-      item.tomou++;
-    } 
-    if (item.quantasVezes == item.tomou) {
-      controle.style.textDecoration = "line-through";
-      btn.innerText = "OK";
-    }
-    updateTodos();
-  };
-});
+        $scope.newItem = null;
+        $scope.addItem = function () {
+            let input = document.getElementById('new');
+            let inputEstaVazio = !input.value;
+            if (inputEstaVazio) { return }
+            let inputVezes = document.getElementById('vezes');
+            $scope.newItem = $scope.newItem || {};
+            $scope.newItem.descricao = input.value;
+            $scope.newItem.quantasVezes = inputVezes?.value > 0 ? inputVezes.value : 1;
+            $scope.newItem.tomou = $scope.newItem.tomou || 0;
+            $scope.newItem.createdAt = $scope.currentDate;
+            let isEdting = $scope.indexEditItem || $scope.indexEditItem == 0;
+            if ($scope.newItem) {
+                if (isEdting) {
+                    $scope.items[$scope.indexEditItem] = $scope.newItem;
+                    $scope.indexEditItem = null;
+                } else {
+                    $scope.items.push($scope.newItem);
+                }
+                $scope.items = $scope.items.filter((item, index, self) =>
+                    index === self.findIndex((t) => t.descricao === item.descricao)
+                );
+                $scope.newItem = ''; // Limpa o campo de entrada
+                input.value = $scope.newItem;
+                inputVezes.value = 0;
+                updateTodos();
+            }
+        };
+        $scope.removeItem = function (item) {
+            if (item && confirm("Deseja realmente remover este item?")) {
+                let index = $scope.items.indexOf(item);
+                $scope.items.splice(index, 1);
+                updateTodos();
+            }
+        };
+        $scope.editItem = function (item) {
+            let input = document.getElementById('new');
+            let inputVezes = document.getElementById('vezes');
+            input.value = item.descricao;
+            inputVezes.value = item.quantasVezes;
+            console.log(item);
+            if (item) {
+                let index = $scope.items.indexOf(item);
+                $scope.indexEditItem = index;
+                $scope.newItem = item;
+            }
+        };
+        $scope.checkItem = function (item, btn) {
+            let controle = document.getElementById(item.descricao);
+            if (item.quantasVezes > item.tomou) {
+                item.tomou++;
+            }
+            if (item.quantasVezes == item.tomou) {
+                controle.style.textDecoration = "line-through";
+                btn.innerText = "OK";
+            }
+            updateTodos();
+        };
+    });
 </script>
 
 </html>
